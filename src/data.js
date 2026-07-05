@@ -85,7 +85,7 @@ export const REVIEWS = [
   {
     name: 'Дмитрий Полянсков',
     role: 'QA инженер',
-    avatar: `${import.meta.env.BASE_URL}polyanskov.jpeg`,
+    avatar: `${import.meta.env.BASE_URL}polyanskov.png`,
     text: '«Playwright Python» отличный курс для тех, кто хочет освоить Playwright с нуля! Материал подан очень доступно и структурированно. Никакой «воды», только конкретика и практические знания.'
   },
   {
@@ -103,13 +103,13 @@ export const REVIEWS = [
   {
     name: 'Илья Борцайкин',
     role: 'Студент, интересующийся QA',
-    avatar: 'https://static.tildacdn.pub/tild6335-6231-4839-b336-613238646331/photo_2026-03-19_163.jpeg',
+    avatar: `${import.meta.env.BASE_URL}gerber.png`,
     text: 'Курс «Тестирование веб-приложений» направлен на изучение тестирования с нуля. Материал изложен предельно понятно. Всем рекомендую к прохождению!'
   },
   {
     name: 'Данил Артюшин',
     role: 'QA инженер',
-    avatar: 'https://static.tildacdn.pub/tild6365-3962-4437-b962-633534353939/noroot.png',
+    avatar: `${import.meta.env.BASE_URL}artyushin.png`,
     text: 'Хочу выразить огромную благодарность автору! Материал подан максимально понятно, без воды — все по делу. Отдельный плюс — практика на реальных сайтах. Лучшее вложение времени и средств!'
   },
   {
