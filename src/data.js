@@ -85,7 +85,7 @@ export const REVIEWS = [
   {
     name: 'Дмитрий Полянсков',
     role: 'QA инженер',
-    avatar: `${import.meta.env.BASE_URL}polyanskov.png`,
+    avatar: `${import.meta.env.BASE_URL}polyanskov.jpeg`,
     text: '«Playwright Python» отличный курс для тех, кто хочет освоить Playwright с нуля! Материал подан очень доступно и структурированно. Никакой «воды», только конкретика и практические знания.'
   },
   {
@@ -103,7 +103,7 @@ export const REVIEWS = [
   {
     name: 'Илья Борцайкин',
     role: 'Студент, интересующийся QA',
-    avatar: `${import.meta.env.BASE_URL}gerber.png`,
+    avatar: `${import.meta.env.BASE_URL}bortsaykin.jpeg`,
     text: 'Курс «Тестирование веб-приложений» направлен на изучение тестирования с нуля. Материал изложен предельно понятно. Всем рекомендую к прохождению!'
   },
   {
@@ -115,19 +115,19 @@ export const REVIEWS = [
   {
     name: 'Никита Т',
     role: 'Студент, интересующийся AI',
-    avatar: 'https://static.tildacdn.pub/tild6266-3833-4166-a239-613735396231/noroot.png',
+    avatar: `${import.meta.env.BASE_URL}nikita.png`,
     text: 'Курс «Нейропоиск». До обучения у меня были наивные представления об ИИ. Оказалось, всё работает по-другому. Нет сложной терминологии, всё на понятном языке. Рекомендую всем, кто хочет разобраться.'
   },
   {
     name: 'Сергей Щипцов',
     role: 'Тимлид',
-    avatar: 'https://static.tildacdn.pub/tild3639-3930-4830-a432-353832326466/noroot.png',
+    avatar: `${import.meta.env.BASE_URL}shipsov.png`,
     text: 'Курс «Архитектура команды». Ожидания полностью совпали с реальностью. Шёл с целью структурировать свои знания, перенять опыт автора и узнать что-то новое.'
   },
   {
     name: 'Мария Погребняк',
     role: 'Специалист в IT',
-    avatar: 'https://static.tildacdn.pub/tild3039-6430-4338-a236-393963613066/photo-1438761681033-.jpg',
+    avatar: `${import.meta.env.BASE_URL}pogrebnyak.jpg`,
     text: '«Нейропоиск» лёгкий, но ёмкий курс. Всё, что изложено — структурировано и актуально. Отдельно порадовало, что автор объясняет, как измерять результат.'
   }
 ];
