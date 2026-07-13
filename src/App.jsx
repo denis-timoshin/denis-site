@@ -788,7 +788,7 @@ function Contact() {
             whileTap={{ scale: 0.95 }}
             className="text-xl sm:text-2xl font-bold text-[#ef5d2b] hover:text-[#ff7a4a] transition-colors mb-8 sm:mb-10 inline-block"
           >
-            +7 987 570 66 00
+            +7 987 570 66 60
           </motion.a>
 
           <div className="flex justify-center gap-3 sm:gap-4 mt-8 sm:mt-10">
