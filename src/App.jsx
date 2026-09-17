@@ -873,20 +873,41 @@ export default function App() {
   // Секции рендерятся после того, как браузер обработал хэш, поэтому
   // переход вида /#contact сам по себе никуда не прокручивает
   useEffect(() => {
-    const scrollToHash = (smooth) => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const scrollToHash = () => {
       const id = window.location.hash.slice(1);
       if (!id) return;
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+      if (el) {
+        el.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
+      }
     };
 
-    const timer = setTimeout(() => scrollToHash(false), 50);
-    const onHashChange = () => scrollToHash(true);
-    window.addEventListener('hashchange', onHashChange);
+    // стартуем сразу после первой отрисовки, чтобы не было паузы на верху страницы;
+    // если секция ещё не в DOM — ждём её, не дольше полусекунды
+    let attempts = 0;
+    let timer;
+    const tryScroll = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      if (document.getElementById(id)) {
+        scrollToHash();
+      } else if (attempts++ < 10) {
+        timer = setTimeout(tryScroll, 50);
+      }
+    };
+
+    const frame = requestAnimationFrame(() => requestAnimationFrame(tryScroll));
+    window.addEventListener('hashchange', scrollToHash);
 
     return () => {
+      cancelAnimationFrame(frame);
       clearTimeout(timer);
-      window.removeEventListener('hashchange', onHashChange);
+      window.removeEventListener('hashchange', scrollToHash);
     };
   }, []);
 
