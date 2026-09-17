@@ -1,0 +1,16 @@
+# Зависимости
+node_modules/
+
+# Сборка
+dist/
+dist-ssr/
+
+# Локальные настройки и логи
+*.local
+*.log
+npm-debug.log*
+
+# Редакторы и ОС
+.idea/
+.vscode/
+.DS_Store
