@@ -146,8 +146,8 @@
         background: rgba(249, 115, 22, 0.1);
         border: 1px solid rgba(249, 115, 22, 0.2);
         border-radius: 9999px;
-        padding: 8px 16px;
-        margin-bottom: clamp(12px, 3vh, 24px);
+        padding: 7px 14px;
+        margin-bottom: clamp(10px, 2vh, 18px);
       }
       .badge span {
         font-size: 0.875rem;
@@ -167,7 +167,7 @@
       }
 
       .code {
-        font-size: clamp(3.5rem, min(18vw, 13vh), 8rem);
+        font-size: clamp(4rem, min(28vw, 20vh), 11rem);
         font-weight: 700;
         line-height: 1;
         letter-spacing: -0.05em;
@@ -179,7 +179,7 @@
       }
 
       h1 {
-        font-size: clamp(1.25rem, min(5vw, 5.5vh), 2.25rem);
+        font-size: clamp(1.5rem, min(6vw, 7vh), 3rem);
         font-weight: 700;
         letter-spacing: -0.02em;
         line-height: 1.25;
@@ -195,8 +195,8 @@
         font-size: 1rem;
         line-height: 1.7;
         color: #9ca3af;
-        margin: 0 auto clamp(20px, 4vh, 32px);
-        max-width: 36rem;
+        margin: 0 auto clamp(18px, 3.5vh, 30px);
+        max-width: 38rem;
       }
 
       .actions {
@@ -204,7 +204,7 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 16px;
-        margin-bottom: clamp(24px, 5vh, 40px);
+        margin-bottom: clamp(20px, 4vh, 36px);
       }
       .btn {
         position: relative;
@@ -257,7 +257,7 @@
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: #6b7280;
-        margin: 0 0 clamp(10px, 2vh, 16px);
+        margin: 0 0 clamp(8px, 1.5vh, 14px);
       }
       .links {
         display: flex;
@@ -338,7 +338,24 @@
 
       /* Совсем низкие экраны: бейдж дублирует крупную цифру — убираем его ради места */
       @media (max-height: 640px) {
+        .badge,
+        .links-title { display: none; }
+      }
+
+      @media (max-height: 600px) {
+        .lead { font-size: 0.875rem; line-height: 1.5; }
+        .code { font-size: clamp(3rem, min(24vw, 18vh), 6rem); }
+      }
+
+      /* Невысокие телефоны вроде iPhone SE 2/3 и 8 */
+      @media (max-width: 400px) and (max-height: 680px) {
         .badge { display: none; }
+      }
+
+      /* Крошечные экраны вроде iPhone SE 1: оставляем только кнопки */
+      @media (max-width: 400px) and (max-height: 600px) {
+        .links { display: none; }
+        .content { padding-top: 12px; padding-bottom: 16px; }
       }
 
       @media (hover: none) {

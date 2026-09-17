@@ -1,16 +1,47 @@
-# React + Vite
+# denis-timoshin.ru
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Одностраничный сайт курсов Дениса Тимошина: QA, управление командой и работа с нейросетями.
 
-Currently, two official plugins are available:
+Живой сайт: https://denis-timoshin.ru
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Стек
 
-## React Compiler
+React 19 + Vite 8, Tailwind CSS 3, framer-motion. Хостинг — GitHub Pages.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Разработка
 
-## Expanding the Oxlint configuration
+```bash
+npm install
+npm run dev      # локальный сервер с горячей перезагрузкой
+npm run build    # production-сборка в dist/
+npm run preview  # посмотреть собранную версию
+npm run lint     # oxlint
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Нужен Node 20.19+ или 22+ (требование Vite 8).
+
+## Структура
+
+```
+index.html                 разметка-обёртка, мета-теги и SEO
+src/App.jsx                все секции страницы
+src/data.js                контент: курсы, отзывы, FAQ, преимущества
+public/                    изображения, robots.txt, sitemap.xml, CNAME
+public/404.html            страница 404 (GitHub Pages отдаёт её сам)
+.github/workflows/deploy.yml  сборка и публикация
+```
+
+Тексты курсов и отзывов правятся в `src/data.js` — трогать разметку для этого не нужно.
+
+## Деплой
+
+Любой push в `main` автоматически собирает проект и публикует его на GitHub Pages.
+Запустить деплой вручную можно во вкладке Actions (workflow_dispatch).
+
+Домен задан в `CNAME`; файл лежит и в корне, и в `public/`, чтобы попадать в сборку.
+
+## Изображения
+
+Аватарки отзывов показываются кружками ~56px — держите их в пределах 300px по большей
+стороне в JPEG. Фото в hero и в блоке «Обо мне» с прозрачным фоном, поэтому остаются PNG.
+`timoshin_it_key.jpg` используется как превью для соцсетей (og:image).

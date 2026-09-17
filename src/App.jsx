@@ -932,6 +932,15 @@ export default function App() {
             .pulse-dot { animation: none !important; }
             .arrow-bounce { animation: none !important; }
 }
+        @media (prefers-reduced-motion: reduce) {
+            .floating-orb, .pulse-dot, .arrow-bounce { animation: none !important; }
+            *, *::before, *::after {
+              animation-duration: 0.01ms !important;
+              animation-iteration-count: 1 !important;
+              transition-duration: 0.01ms !important;
+              scroll-behavior: auto !important;
+            }
+}
         section[id] {
             scroll-margin-top: 65px;
 }
