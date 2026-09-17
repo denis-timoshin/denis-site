@@ -204,7 +204,6 @@
         flex-wrap: wrap;
         justify-content: center;
         gap: 16px;
-        margin-bottom: clamp(20px, 4vh, 36px);
       }
       .btn {
         position: relative;
@@ -251,38 +250,6 @@
         background: rgba(255, 255, 255, 0.05);
       }
 
-      .links-title {
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #6b7280;
-        margin: 0 0 clamp(8px, 1.5vh, 14px);
-      }
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-      }
-      .link-card {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #9ca3af;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 9999px;
-        padding: 10px 18px;
-        transition: color 0.3s, background-color 0.3s, border-color 0.3s;
-      }
-      .link-card:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(239, 93, 43, 0.4);
-      }
 
       /* Подвал */
       .footer {
@@ -331,15 +298,12 @@
         .lead { font-size: 0.9375rem; line-height: 1.6; }
         .btn { padding: 11px 22px; font-size: 0.9375rem; }
         .actions { gap: 12px; }
-        .link-card { padding: 8px 14px; font-size: 0.8125rem; }
-        .links { gap: 8px; }
         .footer { padding: 16px 0; }
       }
 
       /* Совсем низкие экраны: бейдж дублирует крупную цифру — убираем его ради места */
       @media (max-height: 640px) {
-        .badge,
-        .links-title { display: none; }
+        .badge { display: none; }
       }
 
       @media (max-height: 600px) {
@@ -352,9 +316,7 @@
         .badge { display: none; }
       }
 
-      /* Крошечные экраны вроде iPhone SE 1: оставляем только кнопки */
       @media (max-width: 400px) and (max-height: 600px) {
-        .links { display: none; }
         .content { padding-top: 12px; padding-bottom: 16px; }
       }
 
@@ -418,13 +380,6 @@
           <a class="btn btn-ghost" href="/#contact">Написать мне</a>
         </div>
 
-        <p class="links-title">Куда можно пойти</p>
-        <nav class="links">
-          <a class="link-card" href="/#about">Обо мне</a>
-          <a class="link-card" href="/#courses">Курсы</a>
-          <a class="link-card" href="/#reviews">Отзывы</a>
-          <a class="link-card" href="/#contact">Контакты</a>
-        </nav>
       </div>
     </main>
 

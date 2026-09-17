@@ -870,6 +870,26 @@ function Footer() {
 }
 
 export default function App() {
+  // Секции рендерятся после того, как браузер обработал хэш, поэтому
+  // переход вида /#contact сам по себе никуда не прокручивает
+  useEffect(() => {
+    const scrollToHash = (smooth) => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    };
+
+    const timer = setTimeout(() => scrollToHash(false), 50);
+    const onHashChange = () => scrollToHash(true);
+    window.addEventListener('hashchange', onHashChange);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('hashchange', onHashChange);
+    };
+  }, []);
+
   return (
     <div className="font-sans antialiased text-white bg-[#0a0a0a] overflow-x-hidden selection:bg-[#ef5d2b] selection:text-white">
       <style>{`
