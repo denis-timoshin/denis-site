@@ -463,7 +463,7 @@ function About() {
 
               <div className="grid grid-cols-3 gap-6">
                 {[
-                  { value: 8, suffix: '+', label: 'курсов' },
+                  { value: 9, suffix: '+', label: 'курсов' },
                   { value: 500, suffix: '+', label: 'студентов' },
                   { value: 5, suffix: '', label: 'рейтинг', isFloat: true }
                 ].map((stat, i) => (
