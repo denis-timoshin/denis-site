@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Navbar, Footer } from '../components/SiteChrome';
 import { CHECKLISTS } from './data';
-import { countChecks } from './content/index.js';
+import { countChecks } from './count.js';
+import { reachGoal, GOALS } from '../analytics';
 
 const SITE = 'https://denis-timoshin.ru';
 
@@ -44,6 +45,7 @@ function CopyChip({ value }) {
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(value);
+      reachGoal(GOALS.copyExample);
       setCopied(true);
       setTimeout(() => setCopied(false), 1200);
     } catch { /* буфер недоступен — значение всё равно видно и выделяется */ }
@@ -139,10 +141,11 @@ export default function ChecklistDetail({ content }) {
 
   const copyTable = async () => {
     const tsv = toRows(content, done).map(r => r.map(c => String(c).replace(/[\t\n]/g, ' ')).join('\t')).join('\n');
-    try { await navigator.clipboard.writeText(tsv); flash('Таблица скопирована — вставьте в Google Таблицы или Excel'); }
+    try { await navigator.clipboard.writeText(tsv); reachGoal(GOALS.copyTable, { checklist: content.slug }); flash('Таблица скопирована — вставьте в Google Таблицы или Excel'); }
     catch { flash('Не удалось скопировать — скачайте CSV'); }
   };
   const downloadCsv = () => {
+    reachGoal(GOALS.downloadCsv, { checklist: content.slug });
     const csv = toRows(content, done).map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';')).join('\r\n');
     const url = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
     const a = Object.assign(document.createElement('a'), { href: url, download: `checklist-${content.slug}.csv` });
@@ -184,7 +187,7 @@ export default function ChecklistDetail({ content }) {
             <i className="w-[7px] h-[7px] rounded-full bg-[#ef5d2b] shadow-[0_0_0_4px_rgba(239,93,43,0.2)]" />
             {checksWord(total)} · обновлено <time dateTime={content.updated}>{formatDate(content.updated)}</time>
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-bold tracking-tight leading-tight mt-6 mb-5">
+          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.15] sm:leading-[1.15] lg:leading-[1.15] mt-6 mb-5">
             {content.h1}
           </h1>
           <p className="text-gray-400 text-lg max-w-3xl">{content.lead}</p>
@@ -282,7 +285,7 @@ export default function ChecklistDetail({ content }) {
                 <h2 className="text-[22px] sm:text-[28px] font-bold tracking-tight max-w-xl">Хотите составлять такие чек-листы сами?</h2>
                 <p className="text-gray-400 mt-2 max-w-xl">В курсе «Тестирование веб-приложений» разбираем техники тест-дизайна на реальном проекте — с ИИ-помощником.</p>
               </div>
-              <a href="https://stepik.org/a/254843" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#ef5d2b] hover:bg-[#ff7a4a] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-full">
+              <a href="https://stepik.org/a/254843" target="_blank" rel="noopener noreferrer" onClick={() => reachGoal(GOALS.courseClick, { from: content.slug })} className="inline-flex items-center gap-2 bg-[#ef5d2b] hover:bg-[#ff7a4a] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-full">
                 Взять этот ключ →
               </a>
             </section>
@@ -311,6 +314,18 @@ export default function ChecklistDetail({ content }) {
   );
 }
 
+// Автор для микроразметки: sameAs связывает сайт с профилями, как в блоке «Контакты» на главной
+const AUTHOR = {
+  '@type': 'Person',
+  '@id': `${SITE}/#denis-timoshin`,
+  name: 'Денис Тимошин',
+  url: `${SITE}/`,
+  image: `${SITE}/timoshin_autor.png`,
+  jobTitle: 'Руководитель отдела QA',
+  worksFor: { '@type': 'Organization', name: 'Kokoc.tech', url: 'https://kokoc.tech/' },
+  sameAs: ['https://t.me/timoshin_denis', 'https://vk.com/d.timoshinn', 'https://rutube.ru/channel/78748261/'],
+};
+
 // Микроразметка: крошки + статья с автором
 export function detailJsonLd(content) {
   const url = `${SITE}/checklists/${content.slug}/`;
@@ -326,10 +341,13 @@ export function detailJsonLd(content) {
     {
       '@context': 'https://schema.org', '@type': 'Article',
       headline: content.title, description: content.description, url,
-      inLanguage: 'ru', dateModified: content.updated,
-      author: { '@type': 'Person', name: 'Денис Тимошин', url: `${SITE}/`, jobTitle: 'Руководитель отдела QA' },
-      publisher: { '@type': 'Person', name: 'Денис Тимошин', url: `${SITE}/` },
-      image: `${SITE}/timoshin_it_key.jpg`,
+      inLanguage: 'ru',
+      datePublished: content.published || content.updated,
+      dateModified: content.updated,
+      mainEntityOfPage: url,
+      author: AUTHOR,
+      publisher: { '@id': AUTHOR['@id'] },
+      image: `${SITE}/og/${content.slug}.jpg`,
       articleSection: content.sections.map(s => s.title),
     }
   ];

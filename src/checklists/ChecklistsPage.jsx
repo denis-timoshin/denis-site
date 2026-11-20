@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Navbar, Footer } from '../components/SiteChrome';
-import { CHECKLISTS as BASE, CAT_INFO } from './data';
-import { CONTENT, countChecks } from './content/index.js';
+import { CHECKLISTS, CAT_INFO } from './data';
 import { wireframe } from './wireframes';
+import { reachGoal, GOALS } from '../analytics';
 import './wireframes.css';
 
 export const CHECKLISTS_FAQ = [
   {
     q: 'Что такое чек-лист в тестировании?',
-    a: 'Список проверок без пошаговых шагов и ожидаемых результатов, в отличие от тест-кейса. Подходит для быстрых регрессионных и смоук-проверок, когда тестировщик понимает продукт.'
+    a: 'Список того, что нужно проверить, — без подробных шагов и ожидаемых результатов, как в тест-кейсе. Подходит для быстрых регрессионных и смоук-проверок, когда тестировщик хорошо знает продукт.'
   },
   {
     q: 'Чем чек-лист отличается от тест-кейса?',
@@ -31,8 +31,6 @@ const HOW = [
   ['Автоматизируйте', 'Типовые проверки легко превратить в автотесты на Playwright или pytest.']
 ];
 
-// У готовых чек-листов число проверок берём из их содержимого
-const CHECKLISTS = BASE.map(c => CONTENT[c.slug] ? { ...c, n: countChecks(CONTENT[c.slug]) } : c);
 const CATS = [...new Set(CHECKLISTS.map(c => c.cat))];
 const READY = CHECKLISTS.filter(c => !c.soon);
 
@@ -105,6 +103,20 @@ export default function ChecklistsPage() {
   const [query, setQuery] = useState('');
   const [activeCat, setActiveCat] = useState('all');
   const inputRef = useRef(null);
+  const searchRef = useRef(null);
+
+  // Переключение группы: если страница вверху, подкручиваем так, чтобы поиск встал
+  // сразу под шапкой и было видно, что список сменился. Если уже прокрутили ниже — не трогаем.
+  const selectCat = value => {
+    setActiveCat(value);
+    const box = searchRef.current;
+    if (!box) return;
+    const header = window.innerWidth >= 640 ? 80 : 64;
+    const target = Math.round(box.getBoundingClientRect().top + window.scrollY - header - 24);
+    if (window.scrollY >= target - 1) return;
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: target, behavior: smooth ? 'smooth' : 'auto' });
+  };
 
   useEffect(() => {
     const onKey = e => {
@@ -126,7 +138,9 @@ export default function ChecklistsPage() {
   const checks = READY.reduce((s, c) => s + c.n, 0);
 
   return (
-    <div className="font-sans antialiased text-white bg-[#0a0a0a] overflow-x-hidden selection:bg-[#ef5d2b] selection:text-white min-h-screen">
+    // overflow-anchor: none — при смене группы список меняется целиком, и браузер
+    // не должен «догонять» прокруткой какой-нибудь элемент ниже
+    <div className="font-sans antialiased text-white bg-[#0a0a0a] overflow-x-clip [overflow-anchor:none] selection:bg-[#ef5d2b] selection:text-white min-h-screen">
       <Navbar current="checklists" />
 
       <div className="absolute top-0 left-0 right-0 h-[1100px] overflow-hidden pointer-events-none" aria-hidden="true">
@@ -144,14 +158,14 @@ export default function ChecklistsPage() {
             <i className="w-[7px] h-[7px] rounded-full bg-[#ef5d2b] shadow-[0_0_0_4px_rgba(239,93,43,0.2)]" />
             Бесплатно · от руководителя QA-отдела
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-bold tracking-tight leading-tight mt-6 mb-5 max-w-4xl">
+          <h1 className="text-3xl sm:text-4xl lg:text-[3.5rem] font-bold tracking-tight leading-[1.15] sm:leading-[1.15] lg:leading-[1.15] mt-6 mb-5 max-w-4xl">
             Чек-листы тестирования <span className="text-[#ef5d2b]">для каждого компонента</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl">
             Найдите компонент — форму, фильтр, аккордеон, корзину или API — и откройте готовый чек-лист: что проверить, на каких данных и какие баги встречаются чаще всего.
           </p>
 
-          <div className="relative max-w-[860px] mt-9 mb-4">
+          <div ref={searchRef} className="relative max-w-[860px] mt-9 mb-4">
             <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 stroke-gray-400 fill-none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
             <input
               ref={inputRef}
@@ -166,7 +180,15 @@ export default function ChecklistsPage() {
             {query && (
               <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus(); }} aria-label="Очистить поиск" className="absolute right-[52px] top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-[#262626] text-white text-[13px]">✕</button>
             )}
-            <kbd className="hidden sm:block absolute right-[18px] top-1/2 -translate-y-1/2 font-mono text-xs font-semibold text-gray-500 border border-white/10 rounded-md px-[7px] py-0.5">/</kbd>
+            <kbd
+              aria-hidden="true"
+              className="group/kbd hidden sm:block absolute right-[18px] top-1/2 -translate-y-1/2 cursor-help font-mono text-xs font-semibold text-gray-500 border border-white/10 rounded-md px-[7px] py-0.5"
+            >
+              /
+              <span className="pointer-events-none absolute right-0 top-full mt-2 whitespace-nowrap rounded-lg bg-[#262626] px-2.5 py-1.5 font-sans text-xs font-medium text-gray-200 opacity-0 transition-opacity group-hover/kbd:opacity-100">
+                Нажмите <b className="text-white">/</b>, чтобы начать поиск
+              </span>
+            </kbd>
           </div>
 
           <div className="flex flex-wrap gap-2" role="group" aria-label="Группы компонентов">
@@ -178,7 +200,7 @@ export default function ChecklistsPage() {
                   key={value}
                   type="button"
                   aria-pressed={on}
-                  onClick={() => setActiveCat(value)}
+                  onClick={() => selectCat(value)}
                   className={`rounded-full px-[18px] py-[9px] text-sm font-medium border transition-colors ${on ? 'bg-white border-white text-[#0a0a0a]' : 'border-white/10 text-gray-400 hover:text-white hover:border-white/25'}`}
                 >
                   {label}<b className={`ml-1.5 font-semibold ${on ? 'text-[#ef5d2b]' : 'text-gray-500'}`}>{count}</b>
@@ -237,7 +259,7 @@ export default function ChecklistsPage() {
             <h2 className="text-[22px] sm:text-[30px] font-bold tracking-tight max-w-2xl">Хотите не только проверять по чек-листу, но и писать свои?</h2>
             <p className="text-gray-400 mt-2 max-w-2xl">В курсе «Тестирование веб-приложений» разбираем техники тест-дизайна на реальном проекте — с ИИ-помощником.</p>
           </div>
-          <a href="https://stepik.org/a/254843" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#ef5d2b] hover:bg-[#ff7a4a] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-full">
+          <a href="https://stepik.org/a/254843" target="_blank" rel="noopener noreferrer" onClick={() => reachGoal(GOALS.courseClick, { from: 'checklists' })} className="inline-flex items-center gap-2 bg-[#ef5d2b] hover:bg-[#ff7a4a] transition-colors text-white text-sm font-semibold px-6 py-3 rounded-full">
             Взять этот ключ<Arrow />
           </a>
         </section>

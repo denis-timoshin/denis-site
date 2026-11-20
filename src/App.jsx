@@ -3,14 +3,17 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { COURSES, REVIEWS, FAQ, FEATURES } from './data';
 import { Navbar, Footer } from './components/SiteChrome';
 
+// В HTML (пре-рендер) сразу настоящее число — его видят поисковики и пользователи без JS.
+// Когда блок появляется в зоне видимости, число пересчитывается с нуля.
 function AnimatedNumber({ value, suffix = '', duration = 2000 }) {
-  const [displayValue, setDisplayValue] = useState(0);
+  const [displayValue, setDisplayValue] = useState(value);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   useEffect(() => {
     if (!isInView) return;
     let start = 0;
+    setDisplayValue(0);
     const step = value / (duration / 16);
     const timer = setInterval(() => {
       start += step;

@@ -29,7 +29,7 @@ src/data.js                контент: курсы, отзывы, FAQ, пре
 src/components/SiteChrome.jsx  шапка и подвал, общие для всех страниц
 checklists/index.html      HTML-обёртка раздела чек-листов (/checklists/)
 src/checklists/            разводящая чек-листов: данные, схемы-превью, страница
-scripts/prerender.mjs      пре-рендер /checklists/ в статический HTML при сборке
+scripts/prerender.mjs      пре-рендер главной и /checklists/ в статический HTML, sitemap.xml
 public/                    изображения, robots.txt, sitemap.xml, CNAME
 public/404.html            страница 404 (GitHub Pages отдаёт её сам)
 .github/workflows/deploy.yml  сборка и публикация
@@ -42,9 +42,11 @@ public/404.html            страница 404 (GitHub Pages отдаёт её 
 1. Содержимое — `src/checklists/content/<slug>.js` (по образцу `forma.js`).
 2. Регистрация — строка в `src/checklists/content/index.js`.
 3. HTML-обёртка — `checklists/<slug>/index.html` (копия `checklists/forma/index.html` с другим `data-slug`).
-4. Адрес — в `public/sitemap.xml`.
+4. `npm run sync-counts` — обновит число проверок на разводящей (иначе сборка упадёт).
+5. `python3 scripts/gen-og.py` — OG-картинка для соцсетей (`public/og/<slug>.jpg`, нужен macOS и Pillow).
 
-Title, description и микроразметку страницы подставляет пре-рендер из файла содержимого.
+Title, description, Open Graph, микроразметку и запись в `sitemap.xml` подставляет пре-рендер из файла содержимого.
+В `public/sitemap.xml` вручную ведётся только главная.
 
 ## Деплой
 

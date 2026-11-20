@@ -18,10 +18,11 @@ export default defineConfig({
   base: '/',
   build: {
     rollupOptions: {
-      // Многостраничная сборка: главная, разводящая чек-листов и детальные чек-листы
+      // Многостраничная сборка: главная, политика, разводящая чек-листов и детальные чек-листы
       input: {
         main: page('./index.html'),
         checklists: page('./checklists/index.html'),
+        privacy: page('./privacy/index.html'),
         ...checklistPages,
       },
     },
