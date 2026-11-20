@@ -1,0 +1,41 @@
+/* Схемы-превью в карточках чек-листов. Всё внутри .wf, чтобы не задеть остальной сайт. */
+.wf{--accent:#ef5d2b;--green:var(--accent);--green-2:var(--accent);aspect-ratio:16/10;max-height:240px;width:100%;background:#0f0f0f;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;overflow:hidden;position:relative;font-family:ui-sans-serif,system-ui,sans-serif}
+.wf *{flex:none}
+.wf .r{display:flex;gap:6px;align-items:center}
+.wf .col{display:flex;flex-direction:column;gap:5px}
+.wf .f1{flex:1 1 0;min-width:0}
+.wf .l{height:6px;border-radius:3px;background:#2a2a2a}
+.wf .l.t{height:10px;background:#d6d6d6;border-radius:4px}
+.wf .l.s{height:5px;background:#222}
+.wf .im{background:#202020;border-radius:8px}
+.wf .im.a,.wf .im.g{background:var(--accent)}
+.wf .bt{height:14px;width:48px;border-radius:999px;background:#d6d6d6}
+.wf .bt.a,.wf .bt.g{background:var(--accent)}
+.wf .bt.o{background:transparent;border:1.5px solid #555}
+.wf .in{height:16px;border-radius:5px;background:#161616;border:1px solid #333}
+.wf .in.err{border-color:#e5484d}
+.wf .in.ok{border-color:var(--accent)}
+.wf .cd{background:#181818;border:1px solid #232323;border-radius:8px;padding:7px;display:flex;flex-direction:column;gap:5px}
+.wf .ci{border-radius:50%;background:#2a2a2a}
+.wf .ck{width:9px;height:9px;border-radius:3px;border:1.5px solid #444;background:#161616}
+.wf .ck.a{background:var(--accent);border-color:var(--accent)}
+.wf .tg{height:14px;border-radius:999px;background:#161616;border:1px solid #333}
+.wf .tg.a{background:#d6d6d6;border-color:#d6d6d6}
+.wf .pg{display:flex;gap:4px}
+.wf .pg i{width:16px;height:16px;border-radius:5px;background:#161616;border:1px solid #333}
+.wf .pg i.a{background:var(--accent);border-color:var(--accent)}
+.wf .ov{position:absolute;inset:0;display:grid;place-items:center}
+.wf .num{font-weight:700;font-size:20px;letter-spacing:-.03em;line-height:1;color:#e5e5e5}
+.wf .code{font:600 9px/1.5 ui-monospace,monospace;color:#777}
+.wf .code b{color:var(--accent);font-weight:600}
+.wf .err{font-size:8px;color:#e5484d;font-weight:600}
+.wf .dk{background:#0b0b0b;border:1px solid #232323}
+.wf .dots{display:flex;gap:4px;justify-content:center}
+.wf .dots i{width:5px;height:5px;border-radius:50%;background:#333}
+.wf .dots i:first-child{background:var(--accent);width:14px;border-radius:3px}
+.wf .play{width:30px;height:30px;border-radius:50%;background:#e5e5e5;display:grid;place-items:center}
+.wf .play::after{content:"";border-left:9px solid #0a0a0a;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px}
+.wf .spin{width:34px;height:34px;border-radius:50%;border:4px solid #2a2a2a;border-top-color:var(--accent);animation:wf-spin 1s linear infinite}
+@keyframes wf-spin{to{rotate:360deg}}
+.wf .pin{width:14px;height:14px;border-radius:50% 50% 50% 0;rotate:-45deg;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.wf .spin{animation:none}}

@@ -26,6 +26,10 @@ npm run lint     # oxlint
 index.html                 разметка-обёртка, мета-теги и SEO
 src/App.jsx                все секции страницы
 src/data.js                контент: курсы, отзывы, FAQ, преимущества
+src/components/SiteChrome.jsx  шапка и подвал, общие для всех страниц
+checklists/index.html      HTML-обёртка раздела чек-листов (/checklists/)
+src/checklists/            разводящая чек-листов: данные, схемы-превью, страница
+scripts/prerender.mjs      пре-рендер /checklists/ в статический HTML при сборке
 public/                    изображения, robots.txt, sitemap.xml, CNAME
 public/404.html            страница 404 (GitHub Pages отдаёт её сам)
 .github/workflows/deploy.yml  сборка и публикация
