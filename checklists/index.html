@@ -20,10 +20,11 @@
     <meta property="og:site_name" content="Денис Тимошин — Курсы IT" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!--json-ld-->
+    <!--head-->
 
     <style>
-      html, body, #root { margin: 0; padding: 0; background: #0a0a0a; overflow-x: hidden; }
+      /* clip, а не hidden: hidden делает контейнер прокручиваемым и ломает position: sticky */
+      html, body, #root { margin: 0; padding: 0; background: #0a0a0a; overflow-x: clip; }
     </style>
   </head>
   <body style="background: #0a0a0a;">

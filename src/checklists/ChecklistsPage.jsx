@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Navbar, Footer } from '../components/SiteChrome';
-import { CHECKLISTS, CAT_INFO } from './data';
+import { CHECKLISTS as BASE, CAT_INFO } from './data';
+import { CONTENT, countChecks } from './content/index.js';
 import { wireframe } from './wireframes';
 import './wireframes.css';
 
@@ -30,6 +31,8 @@ const HOW = [
   ['Автоматизируйте', 'Типовые проверки легко превратить в автотесты на Playwright или pytest.']
 ];
 
+// У готовых чек-листов число проверок берём из их содержимого
+const CHECKLISTS = BASE.map(c => CONTENT[c.slug] ? { ...c, n: countChecks(CONTENT[c.slug]) } : c);
 const CATS = [...new Set(CHECKLISTS.map(c => c.cat))];
 const READY = CHECKLISTS.filter(c => !c.soon);
 

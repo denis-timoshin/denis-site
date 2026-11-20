@@ -37,6 +37,15 @@ public/404.html            страница 404 (GitHub Pages отдаёт её 
 
 Тексты курсов и отзывов правятся в `src/data.js` — трогать разметку для этого не нужно.
 
+## Как добавить чек-лист
+
+1. Содержимое — `src/checklists/content/<slug>.js` (по образцу `forma.js`).
+2. Регистрация — строка в `src/checklists/content/index.js`.
+3. HTML-обёртка — `checklists/<slug>/index.html` (копия `checklists/forma/index.html` с другим `data-slug`).
+4. Адрес — в `public/sitemap.xml`.
+
+Title, description и микроразметку страницы подставляет пре-рендер из файла содержимого.
+
 ## Деплой
 
 Любой push в `main` автоматически собирает проект и публикует его на GitHub Pages.
