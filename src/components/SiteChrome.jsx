@@ -70,7 +70,9 @@ export function Navbar({ home = false, current }) {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        // Въезд шапки только на главной: остальные страницы пре-рендерятся,
+        // и стартовая позиция анимации (за экраном) попала бы в готовый HTML
+        initial={home ? { y: -100 } : false}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 h-16 sm:h-20 py-3 sm:py-4 transition-all duration-300 ${
