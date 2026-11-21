@@ -193,7 +193,7 @@ export default function ChecklistDetail({ content }) {
           <p className="text-gray-400 text-lg max-w-3xl">{content.lead}</p>
           {base && (
             <a href={`/checklists/${base.slug}/`} className="group inline-flex items-center gap-3 mt-5 rounded-xl border border-white/10 hover:border-[#ef5d2b]/40 px-4 py-2.5 text-sm text-gray-300 transition-colors">
-              <span>Валидация полей — в чек-листе <b className="text-white group-hover:text-[#ef5d2b] transition-colors">«{base.name}»</b></span>
+              <span>{content.basedOnLabel || 'Валидация полей'} — в чек-листе <b className="text-white group-hover:text-[#ef5d2b] transition-colors">«{base.name}»</b></span>
               <span className="text-[#ef5d2b]">→</span>
             </a>
           )}

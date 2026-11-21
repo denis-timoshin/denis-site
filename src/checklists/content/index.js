@@ -56,6 +56,7 @@ import adaptivnost from './adaptivnost.js'
 import krossbrauzernost from './krossbrauzernost.js'
 import dostupnost from './dostupnost.js'
 import favicon from './favicon.js'
+import slajder from './slajder.js'
 
 export const CONTENT = {
   forma,
@@ -113,6 +114,7 @@ export const CONTENT = {
   krossbrauzernost,
   dostupnost,
   favicon,
+  slajder,
 }
 
 export { countChecks } from '../count.js'
