@@ -17,6 +17,15 @@ const SECTION_LINKS = [
 const CHECKLISTS_HREF = '/checklists/';
 export const PRIVACY_HREF = '/privacy/';
 
+// Ссылка на страницу, где посетитель уже находится, не перезагружает её, а прокручивает наверх
+function stayOnPage(e, href, onDone) {
+  if (window.location.pathname !== href) return;
+  e.preventDefault();
+  onDone?.();
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+}
+
 export function Navbar({ home = false, current }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -107,6 +116,7 @@ export function Navbar({ home = false, current }) {
             ))}
             <a
               href={CHECKLISTS_HREF}
+              onClick={e => stayOnPage(e, CHECKLISTS_HREF)}
               aria-current={isChecklists ? 'page' : undefined}
               className={`${desktopLink} ${isChecklists ? 'text-white bg-white/5' : ''}`}
             >
@@ -178,7 +188,7 @@ export function Navbar({ home = false, current }) {
                   {link.label}
                 </SectionLink>
               ))}
-              <a href={CHECKLISTS_HREF} className={mobileLink}>Чек-листы</a>
+              <a href={CHECKLISTS_HREF} onClick={e => stayOnPage(e, CHECKLISTS_HREF, () => setMobileOpen(false))} className={mobileLink}>Чек-листы</a>
               {home ? (
                 <button
                   onClick={() => scrollTo('#contact')}
@@ -262,8 +272,8 @@ export function Footer() {
           <span className="text-sm text-gray-600">© 2026 Денис Тимошин</span>
         </div>
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-600">
-          <a href={CHECKLISTS_HREF} className="hover:text-white transition-colors">Чек-листы для тестировщика</a>
-          <a href={PRIVACY_HREF} className="hover:text-white transition-colors">Политика конфиденциальности</a>
+          <a href={CHECKLISTS_HREF} onClick={e => stayOnPage(e, CHECKLISTS_HREF)} className="hover:text-white transition-colors">Чек-листы для тестировщика</a>
+          <a href={PRIVACY_HREF} onClick={e => stayOnPage(e, PRIVACY_HREF)} className="hover:text-white transition-colors">Политика конфиденциальности</a>
           <span>Курсы IT без воды</span>
         </nav>
       </div>
