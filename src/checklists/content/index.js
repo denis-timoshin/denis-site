@@ -57,6 +57,12 @@ import krossbrauzernost from './krossbrauzernost.js'
 import dostupnost from './dostupnost.js'
 import favicon from './favicon.js'
 import slajder from './slajder.js'
+import tultip from './tultip.js'
+import modalnoeOkno from './modalnoe-okno.js'
+import taby from './taby.js'
+import uvedomleniya from './uvedomleniya.js'
+import vypadayushchijSpisok from './vypadayushchij-spisok.js'
+import knopka from './knopka.js'
 
 export const CONTENT = {
   forma,
@@ -115,6 +121,12 @@ export const CONTENT = {
   dostupnost,
   favicon,
   slajder,
+  tultip,
+  'modalnoe-okno': modalnoeOkno,
+  taby,
+  uvedomleniya,
+  'vypadayushchij-spisok': vypadayushchijSpisok,
+  knopka,
 }
 
 export { countChecks } from '../count.js'

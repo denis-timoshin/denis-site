@@ -13,7 +13,7 @@ export default {
   lead: 'Заказ звонка, заявка, быстрый заказ — всё, что открывается поверх страницы. Здесь только то, что отличает попап от обычной формы; поля проверяйте по чек-листу «Форма».',
   updated: '2026-11-21',
   basedOn: 'forma',
-  related: ['forma', 'kupit-v-1-klik', 'podpiska', 'cookie', 'adaptivnost'],
+  related: ['forma', 'modalnoe-okno', 'kupit-v-1-klik', 'podpiska', 'cookie'],
 
   sections: [
     {
